@@ -1,0 +1,37 @@
+# Descrição 
+name: Execução de testes regressivos usando github actions
+
+# Quando irá ser executado , qual branch e agendar a execução
+on:
+  push: 
+    branches: [ main ]
+  pull_request:
+    branches: [ main ] 
+  schedule:
+    - cron: '0 9,11,15,18 * * 1,5'
+
+# Configurando os jobs, ou seja, qual a tarefa que o job terá que executar, qual a maquina
+# que irá executar
+# Pode ser dado qualquer nome
+jobs:
+  e2e-tests:
+    runs-on: ubuntu-latest
+
+# Configurando os steps que a maquina terá que fazer
+    steps:
+      - name: Checkout projeto #clonando repositorio
+        uses: actions/checkout@v2 #padrão
+
+    # Configurando o node na maquina 
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.2.0
+        with:
+          node-version: ${{ matrix.node-version }}
+
+    # Instalando as dependencias 
+      - name: Install dependecies
+          run: npm install
+
+    # Executando o projeto
+      - name: Run exemplo1
+          run: npm start 
